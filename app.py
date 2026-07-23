@@ -5,11 +5,11 @@ import streamlit as st
 from PIL import Image
 
 # Import backend modules directly for cloud compatibility
-from database import SessionLocal, PredictionRecord, init_db
+from database import SessionLocal, PredictionRecord, Base, engine
 from model_engine import analyze_image
 
-# Initialize Database on Startup
-init_db()
+# Initialize Database Schema on Startup
+Base.metadata.create_all(bind=engine)
 
 # Page Configuration
 st.set_page_config(
