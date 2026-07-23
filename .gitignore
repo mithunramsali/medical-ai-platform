@@ -1,0 +1,6 @@
+medicalaienv/
+venv/
+__pycache__/
+*.db
+uploads/
+outputs/
