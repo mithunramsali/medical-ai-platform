@@ -1,4 +1,3 @@
-opencv-python-headless
 torch
 torchvision
 grad-cam

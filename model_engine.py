@@ -3,8 +3,8 @@ import torchvision.transforms as transforms
 from torchvision.models import resnet18, ResNet18_Weights
 from PIL import Image
 import numpy as np
-import cv2
 import os
+import matplotlib.cm as cm
 
 from pytorch_grad_cam import GradCAM
 from pytorch_grad_cam.utils.model_targets import ClassifierOutputTarget
@@ -71,12 +71,12 @@ def analyze_image(image_path: str, output_cam_path: str = "gradcam_output.jpg"):
     # Generate heatmap array
     grayscale_cam = cam(input_tensor=input_tensor, targets=targets)[0]
     
-    # Superimpose heatmap onto original image
+    # Superimpose heatmap onto original image (returns uint8 numpy array in RGB)
     visualization = show_cam_on_image(rgb_float_img, grayscale_cam, use_rgb=True)
     
-    # Save visual artifact
-    visualization_bgr = cv2.cvtColor(visualization, cv2.COLOR_RGB2BGR)
-    cv2.imwrite(output_cam_path, visualization_bgr)
+    # Save visual artifact using PIL instead of OpenCV
+    cam_pil_img = Image.fromarray(visualization)
+    cam_pil_img.save(output_cam_path)
     
     return {
         "prediction": predicted_label,
